@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Edux</name>
+    </assembly>
+    <members>
+        <member name="M:Edux.Controllers.CategoriaController.Get">
+            <summary>
+            Lista todas as Categorias cadastrados
+            </summary>
+            <returns>retorna uma lista com todas as Categorias</returns>
+        </member>
+        <member name="M:Edux.Controllers.CategoriaController.Get(System.Int32)">
+            <summary>
+            Busca a categoria com através do id
+            </summary>
+            <param name="id">Id da Categoria</param>
+            <returns>Objeto Categoria</returns>
+        </member>
+        <member name="M:Edux.Controllers.CategoriaController.Post(Edux.Domains.Categoria)">
+            <summary>
+            Cadastra uma nova Categoria
+            </summary>
+            <param name="categoria">Objeto Usuario</param>
+        </member>
+        <member name="M:Edux.Controllers.CategoriaController.Put(System.Int32,Edux.Domains.Categoria)">
+            <summary>
+            Altera uma Categoria
+            </summary>
+            <param name="id">Id da Categoria que será alterada</param>
+            <param name="categoria">Dados da Categoria que serão alterados</param>
+        </member>
+        <member name="M:Edux.Controllers.CategoriaController.Delete(System.Int32)">
+            <summary>
+            Remove uma Categoria
+            </summary>
+            <param name="id">Id da Categoria</param>
+            <returns></returns>
+        </member>
+        <member name="M:Edux.Controllers.ProfessorTurmaController.Get">
+            <summary>
+            Lista todos os "ProfessorTurma" cadastrados
+            </summary>
+            <returns>retorna uma lista com todas os "ProfessorTurma"</returns>
+        </member>
+        <member name="M:Edux.Controllers.ProfessorTurmaController.Get(System.Int32)">
+            <summary>
+            Busca os "ProfessorTurma" com o id passado
+            </summary>
+            <param name="id">Id do "ProfessorTurma"</param>
+            <returns>Objeto "ProfessorTurma"</returns>
+        </member>
+        <member name="M:Edux.Controllers.ProfessorTurmaController.Post(Edux.Domains.ProfessorTurma)">
+            <summary>
+            Cadastra um novo "ProfessorTurma"
+            </summary>
+            <param name="profturm">Objeto "ProfessorTurma"</param>
+        </member>
+        <member name="M:Edux.Controllers.ProfessorTurmaController.Put(System.Int32,Edux.Domains.ProfessorTurma)">
+            <summary>
+            Altera um "ProfessorTurma"
+            </summary>
+            <param name="id">Id do "ProfessorTurma" que será alterada</param>
+            <param name="profturm">Dados do "ProfessorTurma" que serão alterados</param>
+        </member>
+        <member name="M:Edux.Controllers.ProfessorTurmaController.Delete(System.Int32)">
+            <summary>
+            Remove um ProfessorTurma
+            </summary>
+            <param name="id">Id do ProfessorTurma</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
