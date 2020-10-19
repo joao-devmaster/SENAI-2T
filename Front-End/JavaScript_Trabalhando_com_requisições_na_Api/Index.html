@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes</title>
+</head>
+<body onload="listar()">
+    
+    <form id="form">
+        <input type="text" id="nome" placeholder="Nome do filme" required>
+        <input type="text" id="categoria" placeholder="Categoria" required>
+        <input type="text" id="ano" placeholder="Ano de lançamento" required>
+
+        <button type="button" onclick="cadastrar()" id="btnCadastrar">Cadastrar</button>
+        <button type="button" onclick="remover()" id="btnRemover">Remover</button>
+
+        <table>
+            <caption>Filmes</caption>
+            <thead>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Categoria
+                </th>
+                <th>
+                    Ano Lançamento
+                </th>
+            </thead>
+            <tbody id="tabela-lista-corpo"></tbody>
+        </table>
+    </form>
+
+</body>
+<script>
+    //endpoint da api
+    let url = 'https://5f87912549ccbb001617769a.mockapi.io/api/categorias'
+    let categoria = document.querySelector('categoria')
+    let categorias = [];
+
+    function listar(){
+        //cria uma instancia do objeto XMLHttpRequest para transferir os dados do cliente/servidor
+        let xhrGet = new XMLHttpRequest();
+        //define a função caso tenha sucesso 
+        xhrGet.onload = listarSucesso;
+        //define a função caso ocorra um erro
+        xhrGet.onerror = listarErro;
+        //abre a conexão com a api passando o verbo e a url/endpoint
+        xhrGet.open = ('Get', url);
+        //envia para a api
+        xhrGet.send();
+    }
+    function listarSucesso(){
+        console.log('sucesso')
+        //pega o retorno do this /XMLHttpRequest - retorno da api
+        const data = this.responsiveText;
+        //converte um array fazendo um json parse 
+        categorias = JSON.parse(data)
+        //mostra na tela
+        console.log(categorias);
+    }
+    function listarErro(err){
+        console.log('err');
+    }
+
+    function cadastrar(){
+        event.preventDefault();
+
+        let xhrGet = new XMLHttpRequest();
+        xhrGet.onload = cadastroSucesso;
+        xhrGet.onerror = cadastroErro;
+        //envia os dados para api usando o metodo POST
+        xhrGet.open('POST', url);
+        //define qual o tipo de conteudo do header
+        xhrGet.setRequestHeader('content-type', 'aplication/json');
+        //cria o objeto com o nome da categoria
+        let params = {
+            name : categoria.value
+        }
+        //para enviar no POST convertemos o objeto para json 
+        xhrGet.send(JSON.stringify(params))
+
+    }
+
+    function cadastroSucesso(){
+        console.log('sucesso');
+        console.log(this.status);
+        console.log(json.parse(this.responsiveText));
+
+        listar();
+    }
+
+    function cadastroErro(err){
+        console.log('erroou' + err);
+    }
+
+    function remover(){
+    let xhrDelete = new XMLHttpRequest();
+    xhrDelete.onload = removeSucesso;
+    xhrDelete.onerror = removeErro;
+    xhrDelete.open('DELETE', url + '/' + categoria.value);
+    xhrDelete.send();
+    }
+
+    function removeSucesso(){
+        console.log('sucesso');
+        console.log(this.status);
+        console.log(json.parse(this.responsiveText));
+
+        listar();
+    }
+
+    function removeErro(){
+        console.log('erroou' + err);
+    }
+
+</script>
+</html>

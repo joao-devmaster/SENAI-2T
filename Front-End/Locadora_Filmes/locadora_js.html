@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes</title>
+</head>
+<body onload="listar()">
+    
+    <form id="form">
+        <input type="text" id="nome" placeholder="Nome do filme" required>
+        <input type="text" id="anoLancamento" placeholder="Ano de lançamento" required>
+        <input type="text" id="categoria" placeholder="Categoria" required>
+
+        <button type="button" onclick="cadastrar()" id="btnCadastrar">Cadastrar</button>
+        <button type="button" onclick="remover()" id="btnRemover">Remover</button>
+
+        <table>
+            <caption>Filmes</caption>
+            <thead>
+                <th>Nome</th>
+                <th>Ano Lançamento</th>
+                <th>Categoria</th>
+            </thead>
+            <tbody id="tabela-lista-corpo"></tbody>
+        </table>
+    </form>
+
+</body>
+<script>
+
+    //MOCKAPI
+    let url = 'https://5f8bb64a84531500167068c4.mockapi.io/api/filme';
+    let filme = document.querySelector('#filme');
+    //armazena as categorias retornadas da api para que sejam global, visiveis em outras funções
+    let filmes = [];
+
+    let nome = document.querySelector('#nome');
+    let anoLancamento = document.querySelector('#anoLancamento');
+    let categoria = document.querySelector('#categoria');
+
+    function listar(){
+
+        //Cria instancia do objeto XMLHttpRequest para trasnferir os dados do client/server
+        let xhrGet = new XMLHttpRequest();
+
+        //função para chamada de api com sucesso
+        xhrGet.onload = listarSucesso;
+
+        //função para chamada de api com erro
+        xhrGet.onerror = listarErro;
+
+        //Abrindo conexão com metodo e url/endpoint
+        xhrGet.open('GET', url);
+
+        //Envia para api
+        xhrGet.send();
+
+        let corpoTabela = document.querySelector('#tabela-lista-corpo'); //<tbody></tbody>
+        //Limpa o tbody da tabela
+        corpoTabela.innerHTML = "";
+
+        //Irá armazenar os elemento tr e td
+        let linha, colunaNome, colunaAnoLancamento, colunaCategoria;
+
+        //Percorrendo o array
+        //Item é a referencia ao meu elemento/objeto no array
+        filmes.forEach(item => {
+            linha = document.createElement('tr'); //<tr></tr>
+
+            colunaNome = document.createElement('td');//<td></td>
+            colunaNome.innerText = item.nome; //<td>Vingadores</td>
+            linha.appendChild(colunaNome); //<tr><td>Vingadores</td></tr>
+
+            colunaAnoLancamento = document.createElement('td');//<td></td>
+            colunaAnoLancamento.innerText = item.anoLancamento; //<td2012</td>
+            linha.appendChild(colunaAnoLancamento); //<tr><td>Vingadores</td><td>2012</td></tr>
+
+            colunaCategoria = document.createElement('td');//<td></td>
+            colunaCategoria.innerText = item.categoria; //<td>Ação</td>
+            linha.appendChild(colunaCategoria); //<tr><td>Vingadores</td><td>2012</td><td>Ação</td></tr>
+
+            corpoTabela.appendChild(linha); //<tbody><tr><td>Vingadores</td><td> 2012</td><td>Ação</td></tr></tbody>
+        });
+
+    }  
+
+    function listarSucesso(){
+        console.log('sucesso');
+        //pega o retorno do this/XmlHttpRequest - retorno da api
+        const data = this.responseText;
+        //converte para Array fazendo um Json parse
+        filmes = JSON.parse(data)
+        //mostra na tela
+        console.log(filmes);
+    }
+
+    //caso ocorra algum erro na chamada da api caiu nesta função, err é a descrição do erro.
+    function listarErro(err){
+        console.error(err);
+    }
+
+    function cadastrar(){
+        event.preventDefault();
+
+        let xhrPost = new XMLHttpRequest();
+        xhrPost.onload = cadastroSucesso;
+        xhrPost.onerror = cadastroErro;
+        //Envia os dados para api usando o metodo POST
+        xhrPost.open('POST', url);
+        //define qual o tipo de conteúdo do Header
+        xhrPost.setRequestHeader('content-type', 'application/json');
+
+        //Cria o objeto com o nome da categoria
+        let params = {
+            nome : document.querySelector('#nome').value,
+            anoLancamento : document.querySelector('#anoLancamento').value,
+            categoria : document.querySelector('#categoria').value
+        }
+
+        //Para enviar no post eu converto meu objeto para json
+        xhrPost.send(JSON.stringify(params))
+    }
+
+    function cadastroSucesso(){
+        console.log('Sucesso');
+        console.log(this.status);
+        console.log(JSON.parse(this.responseText));
+
+        listar();
+    }
+
+    function cadastroErro(err){
+        console.log('Error ' + err );
+    }
+
+    function remover(){
+        let xhrDelete = new XMLHttpRequest();
+        xhrDelete.onload = removeSucesso;
+        xhrDelete.onerror = removeErro;
+        xhrDelete.open('DELETE', url + '/' + filmes.value);
+        xhrDelete.send();
+    }
+
+    function removeSucesso(){
+        console.log('Sucesso');
+        console.log(this.status);
+        console.log(JSON.parse(this.responseText));
+
+        listar();
+    }
+
+    function removeErro(err){
+        console.log('Error' + err );
+    }
+
+</script>
+</html>

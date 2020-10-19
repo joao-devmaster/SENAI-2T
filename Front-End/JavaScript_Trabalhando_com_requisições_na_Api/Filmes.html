@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes</title>
+</head>
+<body onload="listar()">
+    
+    <form id="form">
+        <input type="text" id="nome" placeholder="Nome do filme" required>
+        <input type="text" id="categoria" placeholder="Categoria" required>
+        <input type="text" id="ano" placeholder="Ano de lançamento" required>
+
+        <button type="button" onclick="cadastrar()" id="btnCadastrar">Cadastrar</button>
+        <button type="button" onclick="remover()" id="btnRemover">Remover</button>
+
+        <table>
+            <caption>Filmes</caption>
+            <thead>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Categoria
+                </th>
+                <th>
+                    Ano Lançamento
+                </th>
+            </thead>
+            <tbody id="tabela-lista-corpo"></tbody>
+        </table>
+    </form>
+
+</body>
+<script>
+    //endpoint da api
+    let url = 'https://5f87912549ccbb001617769a.mockapi.io/api/categorias'
+    let categoria = document.querySelector('categoria')
+    let categorias = [];
+
+    let filmes = [{ 
+          filme : 'Alice através do espelho',
+          categoria : 'terror',
+          lancamento : '23/02/2013'
+                        }]
+        //cria um objeto a partir do elemento no documento
+        let btnCadastrar = document.querySelector("#btncadastrar")
+
+        //adicionamos um evento após o usuario clicar em cadastrar (chamando a função cadastrar)
+        btnCadastrar.addEventListener("click", cadastrar)
+
+
+        //remove um objeto a partir do elemento no documento
+        let btnRemover = document.querySelector('#btnRemover');
+           
+      //adicionamos um evento após o usuario clicar em remover (chamando a função remover)
+        btnRemover.addEventListener('click', remover);
+
+
+        //cria um objeto através dos elementos do formulario
+            
+        let filme = document.querySelector ("#nome");
+        let categoria = document.querySelector ("#categoria");
+        let lancamento   = document.querySelector ("#ano");
+
+        function listar(){
+            let corpoTabela = document.querySelector('#tabela-lista-corpo');
+
+            //Irá armazenar os elemento tr e td
+            let linha, colunaNome, colunaEmail, colunaTelefone;
+
+            //Percorrendo o array
+            //Item é a referencia ao meu elemento/objeto no array
+            contatos.forEach(item => {
+                linha = document.createElement('tr'); 
+
+                colunaNome = document.createElement('td');
+                colunaNome.innerText = item.nome;
+                linha.appendChild(colunaNome); 
+
+                colunaEmail = document.createElement('td');
+                colunaEmail.innerText = item.email; 
+                linha.appendChild(colunaEmail); 
+
+                colunaTelefone = document.createElement('td');
+                colunaTelefone.innerText = item.telefone; 
+                linha.appendChild(colunaTelefone); 
+
+                corpoTabela.appendChild(linha); 
+            });
+
+            limparCampos();
+        }                
+        
+
+
+
+        //função que cadastra os dados
+        function cadastrar(event){
+            event.preventDefault();
+
+            try {
+                
+
+                //Cria um objeto com os dados do formulário
+                let filmes = {
+                    filmes : filmes.value,
+                    categoria : categoria.value,
+                    lancamento : lancamento.value
+                }
+
+                filmes.push(filme);
+
+                alert('Contato cadastrado');
+
+                listar();
+
+                
+            } catch (error) {
+                alert('Ocorreu um erro, entre em contato no email joao@email.com');
+            }
+        }
+
+        function remover(event){
+            event.preventDefault();
+
+            //Usado em Array de string, int, array simples
+            //let index = contatos.indexOf(email.value);
+            
+            let index = contatos.findIndex(item => item.email === email.value);
+            console.log(index);
+
+            //existindo exclui
+            if(index > -1){
+                contatos.splice(index, 1)
+                alert('Contato removido');
+
+                listar();
+            } else {
+                alert('Contato não encontrado');
+            }
+        }
+
+
+
+   
+                    
+
+  
+
+   
+
+
+ 
+
+    
+
+   
+
+</script>
+</html>
